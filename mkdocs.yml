@@ -59,6 +59,7 @@ plugins:
           handlers:
               python:
                   paths: [src]
+
 watch:
     - mkdocs.yml
     - src
