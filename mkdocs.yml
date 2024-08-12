@@ -59,6 +59,7 @@ plugins:
           handlers:
               python:
                   paths: [src]
+          use_cache: false
 
 watch:
     - mkdocs.yml
