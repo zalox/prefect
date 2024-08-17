@@ -4,6 +4,7 @@ Command line interface for working with Prefect
 
 import os
 import textwrap
+import webbrowser
 from functools import partial
 
 import anyio
@@ -27,6 +28,7 @@ from prefect.settings import (
     PREFECT_SERVER_API_KEEPALIVE_TIMEOUT,
     PREFECT_SERVER_API_PORT,
     PREFECT_UI_ENABLED,
+    PREFECT_UI_URL,
     Profile,
     load_current_profile,
     load_profiles,
@@ -229,6 +231,28 @@ async def start(
         )
 
     app.console.print("Server stopped!")
+
+
+@server_app.command()
+async def open():
+    """
+    Open the Prefect Cloud UI in the browser.
+    """
+
+    if not (ui_url := PREFECT_UI_URL.value()):
+        raise RuntimeError(
+            "`PREFECT_UI_URL` must be set to the URL of a running Prefect server."
+        )
+
+    if "api.prefect.cloud" in ui_url:
+        raise RuntimeError(
+            f"This profile is configured to use the Prefect Cloud UI at {ui_url}. "
+            "To open the UI in the browser, please use the `prefect cloud open` command."
+        )
+
+    await run_sync_in_worker_thread(webbrowser.open_new_tab, ui_url)
+
+    exit_with_success(f"Opened {ui_url} in browser.")
 
 
 @database_app.command()
