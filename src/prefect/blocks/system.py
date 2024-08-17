@@ -121,7 +121,7 @@ class Secret(Block, Generic[T]):
 
         Secret(value="sk-1234567890").save("BLOCK_NAME", overwrite=True)
 
-        secret_block = Secret.load("test-secret")
+        secret_block = Secret.load("BLOCK_NAME")
 
         # Access the stored secret
         secret_block.get()
