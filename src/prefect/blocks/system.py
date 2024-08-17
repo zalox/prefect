@@ -119,7 +119,7 @@ class Secret(Block, Generic[T]):
         ```python
         from prefect.blocks.system import Secret
 
-        Secret(value="sk-1234567890").save("test-secret", overwrite=True)
+        Secret(value="sk-1234567890").save("BLOCK_NAME", overwrite=True)
 
         secret_block = Secret.load("test-secret")
 
